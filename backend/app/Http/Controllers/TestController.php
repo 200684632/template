@@ -17,7 +17,7 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        $ret = User::where('id', '>=', 1)->with('franchiser')->paginate(10);
+        $ret = User::where('id', '>=', 1)->paginate(10);
 
         $result = [
             'user' => $this->fractalPaginator($ret, \App\Http\Resources\User::class)
