@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('/fuck', 'TestController@test')->name('test');
+    Route::get('/test', 'TestController@test')->name('test');
 });
 
 Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
