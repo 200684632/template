@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 class User extends BaseResource
 {
-//    protected $includes = ['includeFranchiser'];
+    protected $includes = ['includeFranchiser'];
 
     /**
      * Transform the resource into an array.
@@ -14,11 +14,11 @@ class User extends BaseResource
      */
     public function toArray($request)
     {
-        $arrays = [
+        $transform = [
             'id' => $this->id
         ];
 
-        return array_merge($arrays, $this->getIncludes());
+        return array_merge($transform, $this->getIncludes());
     }
 
     public function includeFranchiser()

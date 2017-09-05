@@ -1,49 +1,53 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: liwd
- * Date: 2017/9/4
- * Time: 上午8:52
- */
 
 namespace App\Traits;
 
-use App\Libraries\CustomPagination;
+use App\Libraries\DataArraySerializer;
+use Spatie\Fractalistic\Fractal;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 trait Transformer
 {
-    public function fractalItem($item, $transformer)
+    /**
+     * Fractal 序列化转换单个Object
+     */
+    protected function fractalItem($item, $transformer, $includes=[])
     {
-        if (class_exists($transformer)) {
-            $result = new $transformer($item);
+        $data = Fractal::create($item, $transformer)
+                ->parseIncludes($includes)
+                ->serializeWith(new DataArraySerializer())
+                ->toArray();
 
-            return $result->toArray($result);
-        }
-
-        return [];
+        return $data['data'];
     }
 
-    public function fractalItems($items, $transformer)
+    /**
+     * Fractal 序列化转换Object数组
+     */
+    protected function fractalItems($items, $transformer, $includes=[])
     {
-        if (class_exists($transformer)) {
-            $result = $transformer::collection($items);
+        $data = Fractal::create($items, $transformer)
+                ->serializeWith(new DataArraySerializer())
+                ->parseIncludes($includes)
+                ->toArray();
 
-            return $result->toArray($result);
-        }
-
-        return [];
+        return $data['data'];
     }
 
-    public function fractalPaginator($items, $transformer)
+    /**
+     * Fractal 序列化转换Object数组并添加分页信息
+     */
+    protected function factalPaginator($paginator, $transformer, $includes=[])
     {
-        if (class_exists($transformer)) {
-            $collectionClass = $transformer::collection($items);
+        $data = Fractal::create()
+                ->serializeWith(new DataArraySerializer())
+                ->collection($paginator->getCollection())
+                ->transformWith($transformer)
+                ->parseIncludes($includes)
+                ->paginateWith(new IlluminatePaginatorAdapter($paginator))
+                ->toArray();
 
-            $result = new CustomPagination($collectionClass);
-
-            return $result->toResponse($result->resource);
-        }
-
-        return [];
+        return $data;
     }
+
 }

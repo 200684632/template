@@ -22,5 +22,7 @@ class InitUsers extends Seeder
         ]);
 
         $user->syncRoles(['admin']);
+
+        $user->givePermissionTo('test');
     }
 }

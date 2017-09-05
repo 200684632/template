@@ -7,13 +7,10 @@
 
 namespace App\Http\Resources;
 
-
 use Illuminate\Http\Resources\Json\Resource;
 
 class BaseResource extends Resource
 {
-    protected $includes = [];
-
     public function getIncludes()
     {
         $includes = [];

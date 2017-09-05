@@ -11,6 +11,8 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
+        "nesbot/carbon": "^1.22",
+        "spatie/laravel-fractal": "^5.0",
         "spatie/laravel-permission": "^2.5",
         "upyun/sdk": "^3.1"
     },

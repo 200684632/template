@@ -23,7 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \DB::listen(function($event) {
+            if (env('APP_ENV', 'production') != 'local') return;
+
+            \Log::info($event->sql . json_encode($event->bindings));
+        });
 
         parent::boot();
     }
