@@ -125,9 +125,8 @@ module.exports = (options = {dev: false}) => {
         chunks: [name, 'vendor', 'manifest']
     });
     webpackConfig.plugins.push(plugin);
-});
+  });
 
   return webpackConfig
-
 }
 

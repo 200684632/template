@@ -17,6 +17,9 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
     }
 });
 
+// fix loaderUtils.parseQuery() received.
+process.noDeprecation = true
+
 app.use(devMiddleware)
 
 app.get('/favicon.ico', function(req, res, next) {
@@ -28,7 +31,7 @@ app.get('/:viewname?', function(req, res, next) {
 
     var viewname = req.params.viewname 
         ? req.params.viewname + '.html' 
-        : 'index.html';
+        : 'backend.html';
 
     var filepath = path.join(compiler.outputPath, viewname);
 
