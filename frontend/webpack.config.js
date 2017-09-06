@@ -8,18 +8,18 @@ const glob = require('glob')
 const path = require('path')
 
 function getEntries(globPath) {
-     var files = glob.sync(globPath),
-         entries = {}
+  var files = glob.sync(globPath),
+    entries = {}
 
-     files.forEach(function(filepath) {
-         // 取倒数第二层(view下面的文件夹)做包名
-         var split = filepath.split('/')
-         var name = split[split.length - 2]
+  files.forEach(function(filepath) {
+    // 取倒数第二层(view下面的文件夹)做包名
+    var split = filepath.split('/')
+    var name = split[split.length - 2]
 
-         entries[name] = './' + filepath
-     });
+    entries[name] = './' + filepath
+  });
 
-     return entries
+  return entries
 }
 
 module.exports = (options = {dev: false}) => {
