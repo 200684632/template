@@ -106,7 +106,7 @@ module.exports = (options = {dev: false}) => {
     },
     devtool: options.dev ? '#eval-source-map' : false
   }
-  
+
   var entries = getEntries('src/views/**/index.js')
 
   Object.keys(entries).forEach(function(name) {

@@ -4,21 +4,11 @@ namespace App\Http\Middleware;
 
 use App\Traits\ApiResponse;
 use Closure;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Container\Container;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate;
 
-class Privileges
+class Privileges extends Authenticate
 {
     use ApiResponse;
-
-    public $router;
-
-    function __construct(Router $router)
-    {
-        $this->router = $router;
-    }
 
     /**
      * Handle an incoming request.
@@ -29,10 +19,11 @@ class Privileges
      */
     public function handle($request, Closure $next, ...$guards)
     {
+        $this->authenticate($guards);
+
         if (! empty($guards)) {
             // 判断是否有权限访问
-
-            $role = \Route::currnetRouteName();
+            $role = $request->route()->getName() ?? '';
 
             try {
                 if (empty($role) || ! $request->user()->hasDirectPermission($role)) {

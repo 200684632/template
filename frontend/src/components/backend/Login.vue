@@ -8,7 +8,7 @@
         <el-button type="primary" size="large" class="btn_login_back mt_10" @click="submit">登录</el-button>
     </div>
   </div>
-  
+
   <div class="bottom_back_login">
     <p class="cp_txt">&copy 2017 abaoda.com 版权所有</p>
   </div>
@@ -17,17 +17,17 @@
 
 <script>
 export default {
-    data() {
-        return {
-            username: '',
-            password: '',
-        }
-    },
-    methods: {
-        submit() {
-            this.$store.dispatch('signin', {username: this.username, password: this.password})
-        }
+  data() {
+    return {
+        username: '',
+        password: '',
     }
+  },
+  methods: {
+    submit() {
+        this.$store.dispatch('signin', {username: this.username, password: this.password})
+    }
+  }
 }
 </script>
 
