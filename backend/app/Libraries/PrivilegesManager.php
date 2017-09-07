@@ -14,6 +14,11 @@ class PrivilegesManager extends Controller
         $this->router = $router;
     }
 
+    /**
+     * 获取所有的路由的命名及备注信息
+     *
+     * @return array|\Illuminate\Routing\RouteCollection
+     */
     public function getAllRouteNames()
     {
         $routes = $this->router->getRoutes();

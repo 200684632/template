@@ -76,7 +76,6 @@ class Kernel extends HttpKernel
 
     protected function registerMiddleware()
     {
-//        dd($this->routeMiddleware);
         foreach ($this->routeMiddleware as $key => $middleware) {
             $this->router->aliasMiddleware($key, $middleware);
         }
