@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 
 class TestController extends Controller
 {

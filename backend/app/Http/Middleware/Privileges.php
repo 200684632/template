@@ -22,6 +22,11 @@ class Privileges extends Authenticate
         $this->authenticate($guards);
 
         if (! empty($guards)) {
+            // 如果是admin权限则默认访问所有
+            if ($request->user()->hasRole('admin')) {
+                return $next($request);
+            }
+
             // 判断是否有权限访问
             $role = $request->route()->getName() ?? '';
 

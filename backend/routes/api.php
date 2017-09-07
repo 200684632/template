@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('/test', 'TestController@test')->name('test')->remark('娃娃');
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth:api'], function() {
 //    Route::get('/test', 'TestController@test')->name('test')->remark('娃娃');
 });
 

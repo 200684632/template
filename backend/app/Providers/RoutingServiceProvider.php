@@ -14,11 +14,4 @@ class RoutingServiceProvider extends ServiceProvider
             return new CustomRouter($app['events'], $app);
         });
     }
-
-    public function register()
-    {
-        parent::register();
-
-        $this->app->bind('Illuminate\Routing\Route', CustomRoute::class);
-    }
 }
