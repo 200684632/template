@@ -26,10 +26,15 @@ class PrivilegesManager extends Controller
         $routes = collect($routes)->map(function ($route) {
             return [
                 'name' => $route->getName(),
-                'action' => $route->getActionName(),
                 'remark' => $route->getRemark()
             ];
         })->all();
+
+        $routes = array_filter($routes, function($item) {
+            if (! is_null($item['name'])) {
+                return $item;
+            }
+        });
 
         return $routes;
     }
