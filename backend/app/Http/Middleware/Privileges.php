@@ -31,7 +31,7 @@ class Privileges extends Authenticate
             $role = $request->route()->getName() ?? '';
 
             try {
-                if (empty($role) || ! $request->user()->hasDirectPermission($role)) {
+                if (empty($role) || ! $request->user()->hasPermissionTo($role)) {
                     return $this->apiError('没有权限访问');
                 }
             } catch (\Exception $exception) {
