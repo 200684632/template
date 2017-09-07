@@ -163,6 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        \App\Providers\RoutingServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -187,8 +188,6 @@ return [
         // cors
         Barryvdh\Cors\ServiceProvider::class,
 
-        // transform
-        \Spatie\Fractal\FractalServiceProvider::class,
     ],
 
     /*

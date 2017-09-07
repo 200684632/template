@@ -55,4 +55,30 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
+
+    protected function dispatchToRouter()
+    {
+        $this->router = $this->app['router'];
+        $this->registerMiddlewareGroups();
+        $this->registerMiddleware();
+
+        return parent::dispatchToRouter();
+    }
+
+    protected function registerMiddlewareGroups()
+    {
+        if (property_exists($this, 'middlewareGroups')) {
+            foreach ($this->middlewareGroups as $key => $middleware) {
+                $this->router->middlewareGroup($key, $middleware);
+            }
+        }
+    }
+
+    protected function registerMiddleware()
+    {
+//        dd($this->routeMiddleware);
+        foreach ($this->routeMiddleware as $key => $middleware) {
+            $this->router->aliasMiddleware($key, $middleware);
+        }
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Libraries\CustomPagination;
 use App\Libraries\DataArraySerializer;
 use Spatie\Fractalistic\Fractal;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
@@ -9,45 +10,45 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 trait Transformer
 {
     /**
-     * Fractal 序列化转换单个Object
+     * 序列化转换单个Object
      */
-    protected function fractalItem($item, $transformer, $includes=[])
+    protected function fractalItem($item, $transformer)
     {
-        $data = Fractal::create($item, $transformer)
-                ->parseIncludes($includes)
-                ->serializeWith(new DataArraySerializer())
-                ->toArray();
+        if (class_exists($transformer)) {
+            $result = new $transformer($item);
 
-        return $data['data'];
+            return $result->toArray();
+        }
+
+        return [];
     }
 
     /**
-     * Fractal 序列化转换Object数组
+     * 序列化转换Object数组
      */
-    protected function fractalItems($items, $transformer, $includes=[])
+    protected function fractalItems($items, $transformer)
     {
-        $data = Fractal::create($items, $transformer)
-                ->serializeWith(new DataArraySerializer())
-                ->parseIncludes($includes)
-                ->toArray();
+        if (class_exists($transformer)) {
+            $result = $transformer::collection($items);
 
-        return $data['data'];
+            return $result->toArray();
+        }
+
+        return [];
     }
 
     /**
-     * Fractal 序列化转换Object数组并添加分页信息
+     * 序列化转换Object数组并添加分页信息
      */
-    protected function factalPaginator($paginator, $transformer, $includes=[])
+    protected function factalPaginator($items, $transformer)
     {
-        $data = Fractal::create()
-                ->serializeWith(new DataArraySerializer())
-                ->collection($paginator->getCollection())
-                ->transformWith($transformer)
-                ->parseIncludes($includes)
-                ->paginateWith(new IlluminatePaginatorAdapter($paginator))
-                ->toArray();
+        if (class_exists($transformer)) {
+            $class = $transformer::collection($items);
 
-        return $data;
+            $result = new CustomPagination($class);
+
+            return $result->toResponse($result);
+        }
     }
 
 }

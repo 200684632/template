@@ -8,12 +8,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use App\Traits\Transformer;
 use App\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Contracts\Role;
 
 class TestController extends Controller
 {
@@ -22,7 +19,7 @@ class TestController extends Controller
         $ret = User::where('id', '>=', 1)->paginate(10);
 
         $result = [
-            'user' => $this->fractalItems($ret, new UserTransformer(), ['franchiser'])
+            'user' => $this->factalPaginator($ret, \App\Http\Resources\User::class)
         ];
 
         return $this->apiSuccess($result);

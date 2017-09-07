@@ -16,6 +16,16 @@ class PrivilegesManager extends Controller
 
     public function getAllRouteNames()
     {
-        // TODO
+        $routes = $this->router->getRoutes();
+
+        $routes = collect($routes)->map(function ($route) {
+            return [
+                'name' => $route->getName(),
+                'action' => $route->getActionName(),
+                'remark' => $route->getRemark()
+            ];
+        })->all();
+
+        return $routes;
     }
 }

@@ -12,10 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('/test', 'TestController@test')->name('test');
-
+Route::get('/test', 'TestController@test')->name('test')->remark('娃娃');
+Route::group(['middleware' => 'auth'], function() {
+//    Route::get('/test', 'TestController@test')->name('test')->remark('娃娃');
 });
 
 Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
