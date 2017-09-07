@@ -44,7 +44,8 @@ class GeneratePermission extends Command
 
         array_map(function($route) {
             $res = Permission::updateOrCreate([
-                'name' => $route['name']
+                'name' => $route['name'],
+                'guard_name' => $route['guard_name']
             ], [
                 'remark' => $route['remark']
             ]);
