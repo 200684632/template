@@ -16,7 +16,7 @@ public function toArray($request)
 }
 ```
 3. 是否需要`include`
-使用``whenLoaded`来编写需要关联的模型，但是需要在之前获取的时候添加`with`来进行加载所需要的，如下所示:
+使用`whenLoaded`来编写需要关联的模型，但是需要在之前获取的时候添加`with`来进行加载所需要的，如下所示:
 ```php
 // Controller中
 public function test()
