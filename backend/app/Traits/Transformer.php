@@ -17,7 +17,7 @@ trait Transformer
         if (class_exists($transformer)) {
             $result = new $transformer($item);
 
-            return $result->toArray();
+            return $result->toArray($result);
         }
 
         return [];
@@ -31,7 +31,7 @@ trait Transformer
         if (class_exists($transformer)) {
             $result = $transformer::collection($items);
 
-            return $result->toArray();
+            return $result->toArray($result);
         }
 
         return [];
