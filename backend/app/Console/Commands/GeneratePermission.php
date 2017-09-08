@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Libraries\PrivilegesManager;
-use function PHPSTORM_META\map;
 use Spatie\Permission\Models\Permission;
 
 class GeneratePermission extends Command
