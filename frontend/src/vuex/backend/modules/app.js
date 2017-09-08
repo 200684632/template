@@ -6,7 +6,7 @@ const state = {
 
 const getters = {
     app_initialized(state, getters) {
-        return (!getters.user_authorized && user.state.token_loaded) || 
+        return (!getters.user_authorized && user.state.token_loaded) ||
                (getters.user_authorized && user.state.user_loaded)
     }
 }
@@ -20,7 +20,7 @@ const actions = {
         dispatch('load_token').then(()=> {
             dispatch('load_user')
         }, () => {
-        }) 
+        })
     },
 }
 

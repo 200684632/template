@@ -7,6 +7,7 @@ const base = settings.backend_api_base
 const endpoints = {
 	'token': '/backend/oauth/token',
   'user_me': '/backend/users/me',
+  'order':'/backend/order',
 }
 
 const request = (method, url, params) => {

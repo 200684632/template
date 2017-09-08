@@ -10,13 +10,7 @@
 
 </template>
 <script>
-  //引入分页组件
-  import pagination from './pagination.vue'
-  //继承组件
-  import extend from './extend.vue'
-
   export default {
-    extends:extend,
     data() {
       return {
         //分页显示的数据
@@ -29,11 +23,12 @@
             //column的label
             label:'订单号',
             //column的fixed boolean
-            fixed:true,
+            fixed:'right',
             //column的sortable boolean 是否可排序
             sortable:true,
             //width 列的宽度
-            width:100
+            width:100,
+            align:'right'
           },
           {
             prop:'payment_method',
@@ -47,15 +42,19 @@
         buttons:[
           {
             name:'修改',
-            function(index, row) {
+            test(index, row) {
               console.log(row[index])
-            }
+            },
+            icon:'edit',
+            type:'success',
+            size:'small'
           },
           {
             name:'删除',
-            function(index, row) {
+            test(index, row) {
               console.log(row[index])
-            }
+            },
+            icon:'edit'
           }
         ],
         page:1,
@@ -63,7 +62,6 @@
         pagination:{}
       }
     },
-    components:{pagination},
     created() {
       this.selectTableData()
     },
@@ -73,12 +71,15 @@
       },
       selectTableData() {
         this.page = parseInt(this.$route.query.page)
-        this.query('order_search_with_page',
+        let data = this.$query.query('order_search_with_page',
           {
             'page':parseInt(this.$route.query.page),
             'pageSize':this.$route.query.pageSize
-          }
+          },
+          this
         )
+        console.log(data)
+
       },
 
       change(page, size) {
@@ -88,11 +89,12 @@
       },
 
       setPage() {
-        this.routerPush( '/',
+        this.$query.routerPush( '/',
           {
             'page':this.page,
             'pageSize':this.pageSize
-          }
+          },
+          this
         )
       }
     },

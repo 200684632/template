@@ -5,7 +5,7 @@ const state = {
   me: {},
   token: {},
   token_loaded: false,
-  user_loaded: false, 
+  user_loaded: false,
 }
 
 const not_expired = (token) => {
@@ -22,9 +22,13 @@ const getters = {
 }
 
 const actions = {
+  order_search_with_page({commit, dispatch}, params){
+
+    return api.get(api.url('order') + '?page=' + params.page, params)
+  },
   signin({commit, dispatch}, {username, password}) {
     let params = {
-      username: username, 
+      username: username,
       password: password,
       grant_type: 'password',
       client_id: settings.passport_client_id,
@@ -68,7 +72,7 @@ const actions = {
         resolve(token)
       }
     });
-    
+
     return ret
   },
 

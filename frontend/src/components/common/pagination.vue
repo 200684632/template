@@ -3,19 +3,27 @@
     <el-table
       :data="tableData"
       style="width: 100%">
-      <el-table-column :type="type" width="50">
+      <el-table-column type="selection" width="50">
       </el-table-column>
       <el-table-column
         v-for="column in columns"
-        :fixed="column.fixed"
+        :fixed="column.fixed || ''"
         :prop="column.prop"
         :label="column.label"
         :width="column.width"
-        :sortable="column.sortable">
+        :sortable="column.sortable || false"
+        :align="column.align || 'center'"
+        :formatter="column.formatter || defaultFormatter"
+      >
       </el-table-column>
       <el-table-column>
         <template scope="scope">
-          <el-button v-for="button in buttons" @click="button.function(scope.$index, tableData)">
+          <el-button
+            v-for="button in buttons"
+            :type="button.type || 'primary'"
+            :size="button.size || 'small'"
+            :icon="button.icon || ''"
+            @click="button.test(scope.$index, tableData)">
             {{ button.name }}
           </el-button>
         </template>
@@ -34,6 +42,7 @@
 </template>
 <script>
   export default{
+    name:'pagination',
     data() {
       return {
         currentPage:1,
@@ -53,17 +62,13 @@
         type:Array,
         default:[]
       },
-      type:{
-        type:String,
-        default:'selection'
-      },
       pagination:Object
     },
     created() {
       this.currentPage = parseInt(this.$route.query.page) || 1
       this.pageSize = parseInt(this.$route.query.pageSize) || 10
     },
-    methods:{
+    methods: {
       handleSizeChange(size) {
         this.pageSize = size
         this.emit()
@@ -73,7 +78,10 @@
         this.emit()
       },
       emit() {
-          this.$emit('change', this.currentPage, this.pageSize)
+        this.$emit('change', this.currentPage, this.pageSize)
+      },
+      defaultFormatter(row ,column, cellValue) {
+        return row[column.property]
       }
     }
   }
