@@ -43,3 +43,9 @@ public function toArray($request)
 ```php
 Route::get('/test', 'TestController@test')->name('test')->remark('娃娃');
 ```
+
+### 生成所有的权限
+将所有的路由编写的时候对应的`name`和`remark`会被插入到数据库中。
+```shell
+php artisan permission:create-all
+```
