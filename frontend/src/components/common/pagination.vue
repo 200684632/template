@@ -109,9 +109,6 @@
       },
       defaultFormatter(row ,column, cellValue) {
         return row[column.property]
-      },
-      unique() {
-
       }
     }
   }
