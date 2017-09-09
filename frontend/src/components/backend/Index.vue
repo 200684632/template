@@ -18,6 +18,7 @@
         //分页显示的列
         columns:[
           {
+            id:1,
             //column的prop
             prop:'order_on',
             //column的label
@@ -42,7 +43,7 @@
         buttons:[
           {
             name:'修改',
-            test(index, row) {
+            operation(index, row) {
               console.log(row[index])
             },
             icon:'edit',
@@ -51,7 +52,7 @@
           },
           {
             name:'删除',
-            test(index, row) {
+            operation(index, row) {
               console.log(row[index])
             },
             icon:'edit'
@@ -78,7 +79,6 @@
           },
           this
         )
-        console.log(data)
 
       },
 

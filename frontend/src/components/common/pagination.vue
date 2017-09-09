@@ -7,6 +7,7 @@
       </el-table-column>
       <el-table-column
         v-for="column in columns"
+        :key="column.prop"
         :fixed="column.fixed || ''"
         :prop="column.prop"
         :label="column.label"
@@ -20,16 +21,18 @@
         <template scope="scope">
           <el-button
             v-for="button in buttons"
+            :key="button.icon"
             :type="button.type || 'primary'"
             :size="button.size || 'small'"
             :icon="button.icon || ''"
-            @click="button.test(scope.$index, tableData)">
+            @click="button.operation(scope.$index)">
             {{ button.name }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
+      v-if="pagination.total>pagination.per_page"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
