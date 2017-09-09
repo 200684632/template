@@ -1,57 +1,50 @@
 <template>
-  <div>
-    <el-table
-      :data="tableData"
-      @selection-change="selectChange"
-      style="width: 100%">
-      <el-table-column type="selection" width="50">
-      </el-table-column>
-      <el-table-column
-        v-for="column in columns"
-        :key="column.prop"
-        :fixed="column.fixed || ''"
-        :prop="column.prop"
-        :label="column.label"
-        :width="column.width"
-        :sortable="column.sortable || false"
-        :align="column.align || 'center'"
-        :formatter="column.formatter || defaultFormatter"
-      >
-      </el-table-column>
-      <el-table-column>
-        <template scope="scope">
-          <el-button
-            v-for="button in buttons"
-            :key="button.name"
-            :type="button.type || 'primary'"
-            :size="button.size || 'small'"
-            :icon="button.icon || ''"
-            @click="button.operation(scope.$index)">
-            {{ button.name }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-button
-      v-for="batch in batches"
-      :key="batch.name"
-      :type="batch.type || 'primary'"
-      :size="batch.size || 'small'"
-      :icon="batch.icon || ''"
-      @click="batch.operation(selectIds)"
-    >
-      {{ batch.name }}
-    </el-button>
-    <el-pagination
-      v-if="pagination.total>pagination.per_page"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="pageSize"
-      layout="sizes, prev, pager, next"
-      :total="pagination.total">
-    </el-pagination>
+  <div class="table-wrapper">
+    <div class="table-container">
+      <el-table
+        :data="tableData"
+        @selection-change="selectChange"
+        style="width: 100%">
+        <el-table-column type="selection" width="50">
+        </el-table-column>
+        <el-table-column
+          v-for="column in columns"
+          :key="column.prop"
+          :fixed="column.fixed || ''"
+          :prop="column.prop"
+          :label="column.label"
+          :width="column.width"
+          :sortable="column.sortable || false"
+          :align="column.align || 'center'"
+          :formatter="column.formatter || defaultFormatter">
+        </el-table-column>
+        <el-table-column align="center" label="操作">
+          <template scope="scope">
+            <el-button
+              v-for="button in buttons"
+              :key="button.name"
+              :type="button.type || 'primary'"
+              :size="button.size || 'small'"
+              :icon="button.icon || ''"
+              @click="clickMethod(button.operation, scope.$index, scope.row)">
+              {{ button.name }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="pagination-container">
+      <el-pagination
+        v-if="pagination.total > pagination.per_page"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="pageSize"
+        layout="sizes, prev, pager, next"
+        :total="pagination.total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -59,28 +52,30 @@
     name:'pagination',
     data() {
       return {
-        currentPage:1,
-        pageSize:10,
-        selectIds:[]
+        currentPage: 1,
+        pageSize: 10,
+        selected: []
       }
     },
     props:{
-      tableData:{
-        type:Array,
-        default:[],
+      tableData: {
+        type: Array,
+        default: [],
       },
-      columns:{
-        type:Array,
-        default:[]
+      columns: {
+        type: Array,
+        default: []
       },
-      buttons:{
-        type:Array,
-        default:[]
+      buttons: {
+        type: Array,
+        default: []
       },
-      pagination:Object,
-      batches:{
-        type:Array,
-        default:[]
+      pagination: Object,
+      batches: {
+        type: Array,
+        default: function() {
+          return []
+        }
       }
     },
     created() {
@@ -89,11 +84,12 @@
     },
     methods: {
       selectChange(selections) {
-        selections.forEach(selection => {
-            if(this.selectIds.indexOf(selection.id) === -1)
-            {
-              this.selectIds.push(selection.id)
-            }
+        this.batches.forEach(v => {
+          this.$delete(this.batches, v)
+        })
+
+        selections.forEach((selection, index) => {
+          this.$set(this.batches, index, selection.id || index)
         })
       },
       handleSizeChange(size) {
@@ -109,7 +105,14 @@
       },
       defaultFormatter(row ,column, cellValue) {
         return row[column.property]
+      },
+      clickMethod(method, index, row) {
+        method(index, row, this)
       }
     }
   }
 </script>
+
+<style>
+  .pagination-container {text-align: center; margin-top: 20px;}
+</style>

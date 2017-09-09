@@ -3,7 +3,7 @@
     <button @click="test">
       退出
     </button>
-    <pagination :table-data.sync="tableData" :batches="batches" :pagination="pagination" :buttons="buttons"  :columns="columns" @change="change" >
+    <pagination :table-data.sync="tableData" :batches="batches" :pagination="pagination" :buttons="buttons" :columns="columns" @change="change" >
 
     </pagination>
   </div>
@@ -64,14 +64,7 @@
         selectChange(selection) {
           console.log(selection)
         },
-        batches:[
-          {
-            name:'测试',
-            operation(selectIds) {
-                console.log(selectIds)
-            }
-          }
-        ]
+        batches:[]
       }
     },
     created() {
