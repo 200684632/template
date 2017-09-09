@@ -2,6 +2,7 @@
   <div>
     <el-table
       :data="tableData"
+      @selection-change="selectChange"
       style="width: 100%">
       <el-table-column type="selection" width="50">
       </el-table-column>
@@ -21,7 +22,7 @@
         <template scope="scope">
           <el-button
             v-for="button in buttons"
-            :key="button.icon"
+            :key="button.name"
             :type="button.type || 'primary'"
             :size="button.size || 'small'"
             :icon="button.icon || ''"
@@ -31,6 +32,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button
+      v-for="batch in batches"
+      :key="batch.name"
+      :type="batch.type || 'primary'"
+      :size="batch.size || 'small'"
+      :icon="batch.icon || ''"
+      @click="batch.operation(selectIds)"
+    >
+      {{ batch.name }}
+    </el-button>
     <el-pagination
       v-if="pagination.total>pagination.per_page"
       @size-change="handleSizeChange"
@@ -49,7 +60,8 @@
     data() {
       return {
         currentPage:1,
-        pageSize:10
+        pageSize:10,
+        selectIds:[]
       }
     },
     props:{
@@ -65,13 +77,25 @@
         type:Array,
         default:[]
       },
-      pagination:Object
+      pagination:Object,
+      batches:{
+        type:Array,
+        default:[]
+      }
     },
     created() {
       this.currentPage = parseInt(this.$route.query.page) || 1
       this.pageSize = parseInt(this.$route.query.pageSize) || 10
     },
     methods: {
+      selectChange(selections) {
+        selections.forEach(selection => {
+            if(this.selectIds.indexOf(selection.id) === -1)
+            {
+              this.selectIds.push(selection.id)
+            }
+        })
+      },
       handleSizeChange(size) {
         this.pageSize = size
         this.emit()
@@ -85,6 +109,9 @@
       },
       defaultFormatter(row ,column, cellValue) {
         return row[column.property]
+      },
+      unique() {
+
       }
     }
   }
